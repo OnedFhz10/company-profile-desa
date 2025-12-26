@@ -34,7 +34,8 @@ export default function Navbar({ logoUrl, namaDesa }: NavbarProps) {
   }, []);
 
   const textColor = isHome && !scrolled ? "text-white" : "text-gray-800";
-  const logoTextClass = isHome && !scrolled ? "text-white" : "text-green-900";
+  // GANTI: text-green-900 -> text-emerald-900
+  const logoTextClass = isHome && !scrolled ? "text-white" : "text-emerald-900";
 
   return (
     <>
@@ -62,9 +63,9 @@ export default function Navbar({ logoUrl, namaDesa }: NavbarProps) {
                 />
               </div>
             ) : (
-              // Icon Default kalau belum upload logo
+              // Icon Default (GANTI: bg-green-600 -> bg-emerald-600)
               <div className={`p-1.5 rounded-lg transition-colors ${
-                  isHome && !scrolled ? "bg-white/20 text-white" : "bg-green-600 text-white"
+                  isHome && !scrolled ? "bg-white/20 text-white" : "bg-emerald-600 text-white"
               }`}>
                 <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5" />
@@ -84,6 +85,7 @@ export default function Navbar({ logoUrl, namaDesa }: NavbarProps) {
               { name: "Profil", href: "/profil" },
               { name: "Layanan", href: "/layanan" },
               { name: "Lembaga", href: "/lembaga" },
+              { name: "Statistik", href: "/statistik" },
               { name: "APBDes", href: "/transparansi" },
               { name: "Berita", href: "/berita" },
               { name: "Potensi", href: "/potensi" },
@@ -97,10 +99,10 @@ export default function Navbar({ logoUrl, namaDesa }: NavbarProps) {
                   className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 ${
                     isActive
                       ? scrolled || !isHome
-                        ? "bg-green-100 text-green-700 font-semibold" 
-                        : "bg-white/20 text-white font-semibold"
+                        ? "bg-emerald-100 text-emerald-700 font-bold" // GANTI: Emerald & Bold
+                        : "bg-white/20 text-white font-bold"
                       : scrolled || !isHome
-                      ? "text-gray-600 hover:bg-gray-100 hover:text-green-700" 
+                      ? "text-gray-600 hover:bg-gray-100 hover:text-emerald-700" // GANTI: Emerald
                       : "text-gray-100 hover:bg-white/10 hover:text-white"
                   }`}
                 >
@@ -135,6 +137,7 @@ export default function Navbar({ logoUrl, namaDesa }: NavbarProps) {
                 { name: "Profil", href: "/profil" },
                 { name: "Layanan", href: "/layanan" },
                 { name: "Lembaga", href: "/lembaga" },
+                { name: "Statistik", href: "/statistik" },
                 { name: "APBDes", href: "/transparansi" },
                 { name: "Berita", href: "/berita" },
                 { name: "Potensi", href: "/potensi" },
@@ -144,8 +147,9 @@ export default function Navbar({ logoUrl, namaDesa }: NavbarProps) {
                   key={link.name}
                   href={link.href}
                   onClick={() => setIsOpen(false)}
+                  // GANTI: text-green-600 -> text-emerald-600
                   className={`text-2xl font-bold ${
-                    pathname === link.href ? "text-green-600" : "text-gray-800"
+                    pathname === link.href ? "text-emerald-600" : "text-gray-800"
                   }`}
                 >
                   {link.name}

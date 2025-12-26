@@ -8,7 +8,8 @@ import { apbdes } from './apbdes'
 import { profilDesa } from './profilDesa'
 import { identitas } from './identitas'
 import { lembaga } from './lembaga'
+import { statistik } from './statistik'
 
 export const schema: { types: SchemaTypeDefinition[] } = {
-  types: [berita, perangkat, potensi, layanan, apbdes, profilDesa, identitas, lembaga],
+  types: [berita, perangkat, potensi, layanan, apbdes, profilDesa, identitas, lembaga, statistik],
 }

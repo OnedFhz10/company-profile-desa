@@ -1,21 +1,25 @@
 // src/app/layout.tsx
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+// 1. Ganti import Inter dengan Plus_Jakarta_Sans
+import { Plus_Jakarta_Sans } from "next/font/google"; 
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { client } from "@/sanity/lib/client"; 
 
-const inter = Inter({ subsets: ["latin"] });
+// 2. Konfigurasi Font
+const fontSans = Plus_Jakarta_Sans({ 
+  subsets: ["latin"],
+  weight: ["300", "400", "500", "600", "700", "800"], // Ambil variasi ketebalan
+  variable: "--font-jakarta", // Opsional: untuk custom css variable
+});
 
-// Ambil data Identitas dari Sanity
 async function getIdentitas() {
   const query = `*[_type == "identitas"][0] {
     namaDesa,
     alamat,
     "logoUrl": logo.asset->url
   }`;
-  // Gunakan try-catch agar tidak error kalau data belum ada
   try {
     const data = await client.fetch(query);
     return data;
@@ -34,13 +38,13 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  // Ambil data di server
   const identitas = await getIdentitas();
 
   return (
     <html lang="id">
-      <body className={inter.className}>
-        {/* Kirim data ke Navbar */}
+      {/* 3. Terapkan className font ke body */}
+      <body className={fontSans.className}>
+        
         <Navbar 
           namaDesa={identitas?.namaDesa} 
           logoUrl={identitas?.logoUrl} 
@@ -50,7 +54,6 @@ export default async function RootLayout({
           {children}
         </main>
         
-        {/* Kirim data ke Footer */}
         <Footer 
           namaDesa={identitas?.namaDesa}
           alamat={identitas?.alamat}

@@ -4,9 +4,7 @@ import { urlFor } from "@/sanity/lib/image";
 import Image from "next/image";
 import { PortableText } from "@portabletext/react";
 
-// 1. Ambil Data Gabungan (Profil Text + Perangkat)
 async function getData() {
-  // Update Query: Ambil juga namaKepalaDesa, fotoKepalaDesa, dan sambutan
   const queryProfil = `*[_type == "profilDesa"][0] {
     namaKepalaDesa,
     fotoKepalaDesa,
@@ -34,23 +32,23 @@ export default async function ProfilPage() {
   const { profil, perangkat } = await getData();
 
   return (
-    <div className="min-h-screen bg-gray-50 pt-20">
+    <div className="min-h-screen bg-gray-50">
       
-      {/* --- Header Profil --- */}
-      <div className="bg-green-800 py-20 text-center text-white">
-        <h1 className="text-4xl font-bold mb-4">Profil Desa</h1>
-        <p className="text-green-100 max-w-2xl mx-auto px-4">
+      {/* Header Modern */}
+      <div className="bg-emerald-900 py-32 text-center text-white relative overflow-hidden">
+        <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10"></div>
+        <h1 className="text-4xl md:text-5xl font-bold mb-4 relative z-10">Profil Desa</h1>
+        <p className="text-emerald-100 max-w-2xl mx-auto px-4 relative z-10 font-light text-lg">
           Mengenal lebih dekat sejarah, visi misi, dan jajaran pemerintahan desa.
         </p>
       </div>
 
-      <div className="max-w-6xl mx-auto px-4 py-12 space-y-16">
+      <div className="max-w-6xl mx-auto px-6 py-16 space-y-16 -mt-10 relative z-20">
 
-        {/* --- BAGIAN BARU: SAMBUTAN KEPALA DESA --- */}
+        {/* Sambutan Kades */}
         {profil?.namaKepalaDesa && (
-            <div className="bg-white rounded-3xl shadow-lg overflow-hidden flex flex-col md:flex-row items-stretch border border-gray-100">
-                {/* Kolom Kiri: Foto */}
-                <div className="w-full md:w-1/3 bg-green-50 relative min-h-[300px] md:min-h-full">
+            <div className="bg-white rounded-3xl shadow-xl overflow-hidden flex flex-col md:flex-row border border-gray-100">
+                <div className="w-full md:w-1/3 bg-emerald-50 relative min-h-[350px]">
                     {profil.fotoKepalaDesa ? (
                         <Image 
                             src={urlFor(profil.fotoKepalaDesa).url()}
@@ -59,113 +57,70 @@ export default async function ProfilPage() {
                             className="object-cover"
                         />
                     ) : (
-                        <div className="w-full h-full flex items-center justify-center text-gray-400">No Photo</div>
+                        <div className="flex items-center justify-center h-full text-gray-400">No Photo</div>
                     )}
-                    {/* Label Nama di Foto (Mobile Only/Optional Design) */}
-                    <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-6 text-white md:hidden">
-                        <p className="font-bold text-lg">{profil.namaKepalaDesa}</p>
-                        <p className="text-sm opacity-90">Kepala Desa</p>
-                    </div>
                 </div>
 
-                {/* Kolom Kanan: Teks Sambutan */}
-                <div className="w-full md:w-2/3 p-8 md:p-12 flex flex-col justify-center">
-                    <div className="mb-6">
-                        <h2 className="text-3xl font-bold text-gray-800 mb-2">Sambutan Kepala Desa</h2>
-                        <div className="h-1 w-20 bg-green-500 rounded-full"></div>
-                    </div>
+                <div className="w-full md:w-2/3 p-10 flex flex-col justify-center">
+                    <h2 className="text-3xl font-bold text-gray-900 mb-2">Sambutan Kepala Desa</h2>
+                    <div className="h-1.5 w-20 bg-emerald-500 rounded-full mb-6"></div>
                     
-                    <div className="prose prose-green text-gray-600 leading-relaxed mb-6 text-justify">
-                        {profil.sambutan ? (
-                            <PortableText value={profil.sambutan} />
-                        ) : (
-                            <p className="italic text-gray-400">Belum ada kata sambutan.</p>
-                        )}
+                    <div className="prose prose-emerald text-gray-600 leading-relaxed mb-8">
+                        {profil.sambutan && <PortableText value={profil.sambutan} />}
                     </div>
 
-                    {/* Tanda Tangan / Nama Terang */}
-                    <div className="mt-auto pt-6 border-t border-gray-100">
-                        <p className="font-bold text-gray-900 text-lg">{profil.namaKepalaDesa}</p>
-                        <p className="text-green-600 font-medium">Kepala Desa Maju</p>
+                    <div className="mt-auto">
+                        <p className="font-bold text-gray-900 text-xl">{profil.namaKepalaDesa}</p>
+                        <p className="text-emerald-600 font-medium">Kepala Desa</p>
                     </div>
                 </div>
             </div>
         )}
 
-        
-        {/* --- Bagian 2: Sejarah & Visi Misi (Struktur Lama) --- */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-start bg-white p-8 rounded-2xl shadow-sm border border-gray-100">
-          
-          {/* Kolom Sejarah */}
-          <div>
-            <h2 className="text-2xl font-bold text-green-800 mb-4 border-b-2 border-green-200 pb-2 inline-block">Sejarah Desa</h2>
-            <div className="text-gray-600 leading-relaxed text-justify prose prose-green">
-              {profil?.sejarah ? (
-                <PortableText value={profil.sejarah} />
-              ) : (
-                <p className="italic text-gray-400">Data sejarah belum diinput di CMS.</p>
-              )}
+        {/* Sejarah & Visi Misi */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
+          <div className="bg-white p-8 rounded-3xl shadow-sm border border-gray-100">
+            <h2 className="text-2xl font-bold text-emerald-800 mb-6 flex items-center gap-3">
+                <span className="w-8 h-8 rounded-lg bg-emerald-100 text-emerald-600 flex items-center justify-center text-sm">01</span>
+                Sejarah Desa
+            </h2>
+            <div className="prose prose-sm prose-emerald text-gray-600 text-justify">
+              {profil?.sejarah && <PortableText value={profil.sejarah} />}
             </div>
           </div>
 
-          {/* Kolom Visi Misi */}
-          <div>
-            <h2 className="text-2xl font-bold text-green-800 mb-4 border-b-2 border-green-200 pb-2 inline-block">Visi & Misi</h2>
-            
-            <div className="mb-6">
-                <h3 className="font-bold text-gray-900 text-lg mb-2 bg-green-50 p-2 rounded-lg inline-block">Visi</h3>
-                <p className="text-gray-700 italic text-lg leading-relaxed">
-                  "{profil?.visi || 'Belum ada data visi'}"
-                </p>
+          <div className="bg-white p-8 rounded-3xl shadow-sm border border-gray-100">
+            <h2 className="text-2xl font-bold text-emerald-800 mb-6 flex items-center gap-3">
+                <span className="w-8 h-8 rounded-lg bg-emerald-100 text-emerald-600 flex items-center justify-center text-sm">02</span>
+                Visi & Misi
+            </h2>
+            <div className="mb-8 p-6 bg-emerald-50 rounded-2xl border border-emerald-100">
+                <h3 className="font-bold text-emerald-900 mb-2 uppercase tracking-wide text-sm">Visi</h3>
+                <p className="italic text-gray-700 font-medium">"{profil?.visi}"</p>
             </div>
-
             <div>
-                <h3 className="font-bold text-gray-900 text-lg mb-2 bg-green-50 p-2 rounded-lg inline-block">Misi</h3>
-                <div className="text-gray-600 prose prose-sm prose-green">
-                    {profil?.misi ? (
-                        <PortableText value={profil.misi} />
-                    ) : (
-                        <p className="italic text-gray-400">Belum ada data misi.</p>
-                    )}
+                <h3 className="font-bold text-emerald-900 mb-2 uppercase tracking-wide text-sm">Misi</h3>
+                <div className="prose prose-sm prose-emerald text-gray-600">
+                    {profil?.misi && <PortableText value={profil.misi} />}
                 </div>
             </div>
           </div>
         </div>
 
-        {/* --- Bagian 3: Struktur Organisasi (Perangkat) --- */}
+        {/* Perangkat Desa */}
         <div>
-          <h2 className="text-3xl font-bold text-center text-gray-800 mb-10">
-            Perangkat Desa
-          </h2>
-
-          {perangkat.length > 0 ? (
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-              {perangkat.map((p: any, index: number) => (
-                <div key={index} className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-shadow text-center p-6 group border border-gray-100">
-                  <div className="relative w-32 h-32 mx-auto mb-4 rounded-full overflow-hidden border-4 border-green-50 group-hover:border-green-200 transition-colors">
-                    {p.foto ? (
-                      <Image
-                        src={urlFor(p.foto).url()}
-                        alt={p.nama}
-                        fill
-                        className="object-cover"
-                      />
-                    ) : (
-                      <div className="w-full h-full bg-gray-200 flex items-center justify-center text-gray-400">
-                        No Foto
-                      </div>
-                    )}
+          <h2 className="text-3xl font-bold text-center text-gray-900 mb-12">Struktur Pemerintahan</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8">
+              {perangkat.map((p: any, idx: number) => (
+                <div key={idx} className="bg-white rounded-2xl shadow-sm overflow-hidden hover:shadow-xl transition-all hover:-translate-y-2 border border-gray-100 group text-center p-6">
+                  <div className="w-32 h-32 mx-auto rounded-full overflow-hidden mb-4 border-4 border-emerald-50 group-hover:border-emerald-200 transition-colors relative">
+                    {p.foto && <Image src={urlFor(p.foto).url()} alt={p.nama} fill className="object-cover" />}
                   </div>
-                  <h3 className="text-lg font-bold text-gray-800">{p.nama}</h3>
-                  <p className="text-green-600 text-sm font-medium">{p.jabatan}</p>
+                  <h3 className="text-lg font-bold text-gray-900">{p.nama}</h3>
+                  <p className="text-emerald-600 text-sm font-medium">{p.jabatan}</p>
                 </div>
               ))}
-            </div>
-          ) : (
-            <div className="text-center py-10 bg-white rounded-xl border border-dashed border-gray-300">
-              <p className="text-gray-500">Belum ada data perangkat desa.</p>
-            </div>
-          )}
+          </div>
         </div>
 
       </div>
